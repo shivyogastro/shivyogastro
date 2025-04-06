@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shivyog Astro - Vedic Astrology Insights</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -23,55 +25,51 @@
     const db = getFirestore(app);
 
     document.addEventListener('DOMContentLoaded', () => {
-      const consultForm = document.getElementById('consultationForm');
-      consultForm?.addEventListener('submit', async (e) => {
+      const form = document.getElementById('consultationForm');
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(consultForm);
+        const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
         try {
           await addDoc(collection(db, 'consultationForm'), data);
-          alert('Consultation form submitted!');
-          consultForm.reset();
+          alert('Form submitted successfully!');
+          form.reset();
         } catch (error) {
-          alert('Error submitting form.');
+          console.error('Error submitting form:', error);
+          alert('Failed to submit form. Please try again.');
         }
-      });
-
-      const signupForm = document.getElementById('signupForm');
-      signupForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(signupForm);
-        const data = Object.fromEntries(formData);
-
-        try {
-          await addDoc(collection(db, 'signupForm'), data);
-          alert('Signup successful!');
-          signupForm.reset();
-          document.getElementById('signupModal').classList.add('hidden');
-        } catch (error) {
-          alert('Error signing up.');
-        }
-      });
-
-      const loginForm = document.getElementById('loginForm');
-      loginForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        alert('Login logic not implemented yet.');
       });
     });
   </script>
+
   <style>
-    body { background-color: #fff5f5; color: #2c3e50; }
-    .cosmic-gradient { background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%); }
-    .consultation-card { transition: transform 0.3s, box-shadow 0.3s; }
-    .consultation-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); }
-    .cosmic-background { position: absolute; width: 100%; height: 100%; opacity: 0.1; z-index: -1; }
+    body {
+      background-color: #fff5f5;
+      color: #2c3e50;
+    }
+    .cosmic-gradient {
+      background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
+    }
+    .consultation-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .consultation-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    .cosmic-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      z-index: -1;
+    }
   </style>
 </head>
 <body class="font-sans relative">
   <svg class="cosmic-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <path fill="#c53030" fill-opacity="0.1" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,192C672,171,768,149,864,160C960,171,1056,213,1152,234.7C1248,256,1344,256,1392,256L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"/>
+    <path fill="#c53030" fill-opacity="0.1" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,192C672,171,768,149,864,160C960,171,1056,213,1152,234.7C1248,256,1344,256,1392,256L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
   </svg>
 
   <header class="cosmic-gradient text-white py-6 relative flex justify-between items-center px-4">
@@ -141,30 +139,25 @@
     </section>
   </main>
 
-  <!-- Signup Modal -->
-  <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-96">
-      <h2 class="text-xl font-bold mb-4 text-red-600">Signup</h2>
-      <form id="signupForm">
-        <input type="text" name="name" placeholder="Full Name" class="w-full p-2 mb-4 border rounded" required>
-        <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-4 border rounded" required>
-        <input type="password" name="password" placeholder="Password" class="w-full p-2 mb-4 border rounded" required>
-        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded w-full">Signup</button>
-      </form>
-      <button onclick="document.getElementById('signupModal').classList.add('hidden')" class="mt-4 text-sm text-red-500">Close</button>
+  <!-- Modals -->
+  <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm">
+      <h2 class="text-xl font-semibold mb-4 text-center text-red-600">Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" class="w-full p-2 mb-4 border rounded" />
+      <input type="password" id="loginPassword" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
+      <button onclick="alert('Login functionality coming soon')" class="bg-red-600 text-white px-4 py-2 rounded w-full">Login</button>
+      <button onclick="document.getElementById('loginModal').classList.add('hidden')" class="mt-2 text-sm text-gray-600 w-full">Cancel</button>
     </div>
   </div>
 
-  <!-- Login Modal -->
-  <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-96">
-      <h2 class="text-xl font-bold mb-4 text-red-600">Login</h2>
-      <form id="loginForm">
-        <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-4 border rounded" required>
-        <input type="password" name="password" placeholder="Password" class="w-full p-2 mb-4 border rounded" required>
-        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded w-full">Login</button>
-      </form>
-      <button onclick="document.getElementById('loginModal').classList.add('hidden')" class="mt-4 text-sm text-red-500">Close</button>
+  <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm">
+      <h2 class="text-xl font-semibold mb-4 text-center text-red-600">Signup</h2>
+      <input type="text" id="signupName" placeholder="Full Name" class="w-full p-2 mb-4 border rounded" />
+      <input type="email" id="signupEmail" placeholder="Email" class="w-full p-2 mb-4 border rounded" />
+      <input type="password" id="signupPassword" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
+      <button onclick="alert('Signup functionality coming soon')" class="bg-red-600 text-white px-4 py-2 rounded w-full">Signup</button>
+      <button onclick="document.getElementById('signupModal').classList.add('hidden')" class="mt-2 text-sm text-gray-600 w-full">Cancel</button>
     </div>
   </div>
 
