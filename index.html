@@ -51,22 +51,18 @@
   </header>
 
   <main class="container mx-auto px-4 py-8 relative">
-    <!-- Home Section -->
     <section id="home" class="mb-12 text-center">
       <h2 class="text-3xl font-semibold text-red-600 mb-4">Welcome to Shivyog Astrology</h2>
       <p class="text-lg">Unlock the secrets of your birth chart with ancient Vedic wisdom.</p>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="mb-12 text-center">
       <h2 class="text-3xl font-semibold text-red-600 mb-4">About Us</h2>
-      <p class="text-lg mb-4">Welcome to Shivyog Astrology, your trusted guide in the mystical world of Vedic astrology. Rooted in ancient wisdom and spiritual insights, we help individuals navigate life's journey with clarity, purpose, and divine guidance.</p>
-      <p class="text-lg mb-4">We specialize in natal chart analysis, relationship compatibility, career guidance, and yearly forecasts. Our approach blends traditional astrological principles with a deep understanding of cosmic energies, ensuring accurate and personalized readings.</p>
-      <p class="text-lg">At Shivyog Astrology, we believe that the stars hold answers to life's biggest questions. Whether you're seeking guidance on personal, professional, or spiritual matters, we are here to illuminate your path and empower you with the wisdom of the cosmos.</p>
+      <p class="text-lg mb-4">Welcome to Shivyog Astrology, your trusted guide in the mystical world of Vedic astrology...</p>
+      <p class="text-lg">...empower you with the wisdom of the cosmos.</p>
       <p class="mt-4 text-xl">🙏 Connect with us today and unlock the secrets of your destiny. 🙏</p>
     </section>
 
-    <!-- Services Section -->
     <section id="services" class="mb-12 text-center">
       <h2 class="text-3xl font-semibold text-red-600 mb-8">Our Specialized Services</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -88,44 +84,41 @@
       </div>
     </section>
 
-    <!-- Consultation Section -->
     <section id="consultation" class="mb-12">
       <h2 class="text-3xl text-center font-semibold mb-8 text-red-600">Book Your Consultation</h2>
-      <div class="max-w-lg mx-auto">
-        <form id="consultationForm" class="bg-white p-8 rounded-lg shadow-md">
-          <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 mb-4 border rounded" />
-          <input type="email" name="email" placeholder="Email Address" required class="w-full p-3 mb-4 border rounded" />
-          <input type="tel" name="contact" placeholder="Contact Number" required class="w-full p-3 mb-4 border rounded" />
-          <input type="date" name="birthdate" placeholder="Birth Date" class="w-full p-3 mb-4 border rounded" />
-          <input type="time" name="birthtime" placeholder="Birth Time" class="w-full p-3 mb-4 border rounded" />
-          <input type="text" name="birthplace" placeholder="Place of Birth" class="w-full p-3 mb-4 border rounded" />
-          <button type="submit" class="w-full bg-red-600 text-white p-3 rounded hover:bg-red-700">Schedule Consultation</button>
+      <div class="max-w-3xl mx-auto bg-white p-4 rounded-lg shadow-md">
+        <form id="consultationForm">
+          <input type="text" name="name" placeholder="Name" class="w-full p-2 mb-4 border rounded" required>
+          <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-4 border rounded" required>
+          <input type="text" name="contact" placeholder="Contact Number" class="w-full p-2 mb-4 border rounded" required>
+          <input type="date" name="birthdate" class="w-full p-2 mb-4 border rounded" required>
+          <input type="time" name="birthtime" class="w-full p-2 mb-4 border rounded" required>
+          <input type="text" name="birthplace" placeholder="Place of Birth" class="w-full p-2 mb-4 border rounded" required>
+          <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded w-full">Submit</button>
         </form>
       </div>
     </section>
   </main>
 
-  <!-- Login Modal -->
   <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded shadow-md w-96">
       <h2 class="text-xl font-bold mb-4">Login</h2>
-      <input type="email" placeholder="Email" class="w-full mb-4 p-2 border rounded" />
-      <input type="password" placeholder="Password" class="w-full mb-4 p-2 border rounded" />
-      <button class="bg-red-600 text-white px-4 py-2 rounded w-full">Login</button>
+      <input type="email" id="loginEmail" placeholder="Email" class="w-full mb-4 p-2 border rounded" />
+      <input type="password" id="loginPassword" placeholder="Password" class="w-full mb-4 p-2 border rounded" />
+      <button onclick="login()" class="bg-red-600 text-white px-4 py-2 rounded w-full">Login</button>
       <button onclick="document.getElementById('loginModal').classList.add('hidden')" class="text-red-600 mt-2 w-full">Cancel</button>
     </div>
   </div>
 
-  <!-- Signup Modal -->
   <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded shadow-md w-96">
       <h2 class="text-xl font-bold mb-4">Signup</h2>
-      <input type="text" placeholder="Full Name" class="w-full mb-3 p-2 border rounded" />
-      <input type="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" />
-      <input type="tel" placeholder="Contact Number" class="w-full mb-3 p-2 border rounded" />
-      <input type="text" placeholder="Place" class="w-full mb-3 p-2 border rounded" />
-      <input type="password" placeholder="Password" class="w-full mb-3 p-2 border rounded" />
-      <button class="bg-red-600 text-white px-4 py-2 rounded w-full">Signup</button>
+      <input type="text" id="signupName" placeholder="Full Name" class="w-full mb-2 p-2 border rounded" />
+      <input type="email" id="signupEmail" placeholder="Email" class="w-full mb-2 p-2 border rounded" />
+      <input type="text" id="signupContact" placeholder="Contact Number" class="w-full mb-2 p-2 border rounded" />
+      <input type="text" id="signupPlace" placeholder="Place" class="w-full mb-2 p-2 border rounded" />
+      <input type="password" id="signupPassword" placeholder="Password" class="w-full mb-4 p-2 border rounded" />
+      <button onclick="signup()" class="bg-red-600 text-white px-4 py-2 rounded w-full">Signup</button>
       <button onclick="document.getElementById('signupModal').classList.add('hidden')" class="text-red-600 mt-2 w-full">Cancel</button>
     </div>
   </div>
@@ -136,11 +129,72 @@
     </div>
   </footer>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFYvv79aDYhTPQVNStC4Io7jgFH1IEQfE",
+      authDomain: "shivyogastro-18caf.firebaseapp.com",
+      projectId: "shivyogastro-18caf",
+      storageBucket: "shivyogastro-18caf.appspot.com",
+      messagingSenderId: "882084669023",
+      appId: "1:882084669023:web:2648b13c1c7c7c60549dea",
+      measurementId: "G-N4DTG5Q7FN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
     document.getElementById("consultationForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      alert("Consultation request submitted successfully!");
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        contact: form.contact.value,
+        birthdate: form.birthdate.value,
+        birthtime: form.birthtime.value,
+        birthplace: form.birthplace.value
+      };
+      addDoc(collection(db, "consultationRequests"), data)
+        .then(() => {
+          alert("Consultation request submitted successfully!");
+          form.reset();
+        })
+        .catch(error => {
+          console.error("Error submitting form: ", error);
+          alert("Failed to submit. Try again!");
+        });
     });
+
+    window.signup = function () {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Signup successful");
+          document.getElementById("signupModal").classList.add("hidden");
+        })
+        .catch(error => {
+          alert("Signup failed: " + error.message);
+        });
+    }
+
+    window.login = function () {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Login successful");
+          document.getElementById("loginModal").classList.add("hidden");
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+        });
+    }
   </script>
 </body>
 </html>
