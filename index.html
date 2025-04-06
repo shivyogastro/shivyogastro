@@ -38,6 +38,13 @@
           alert('Failed to submit form. Please try again.');
         }
       });
+
+      // Close modals
+      document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.closest('.modal').classList.add('hidden');
+        });
+      });
     });
   </script>
   <style>
@@ -91,18 +98,11 @@
       <p class="text-lg">Unlock the secrets of your birth chart with ancient Vedic wisdom.</p>
     </section>
 
-    <!-- ✅ UPDATED ABOUT SECTION -->
     <section id="about" class="mb-12 text-center bg-white p-12 rounded-lg shadow-md">
       <h2 class="text-3xl font-semibold text-red-600 mb-4">About Us</h2>
-      <p class="text-lg mb-4">
-        Welcome to Shivyog Astrology, your trusted guide in the mystical world of Vedic astrology. Rooted in ancient wisdom and spiritual insights, we help individuals navigate life's journey with clarity, purpose, and divine guidance.
-      </p>
-      <p class="text-lg mb-4">
-        We specialize in natal chart analysis, relationship compatibility, career guidance, and yearly forecasts. Our approach blends traditional astrological principles with a deep understanding of cosmic energies, ensuring accurate and personalized readings.
-      </p>
-      <p class="text-lg mb-4">
-        At Shivyog Astrology, we believe that the stars hold answers to life's biggest questions. Whether you're seeking guidance on personal, professional, or spiritual matters, we are here to illuminate your path and empower you with the wisdom of the cosmos.
-      </p>
+      <p class="text-lg mb-4">Welcome to Shivyog Astrology, your trusted guide in the mystical world of Vedic astrology. Rooted in ancient wisdom and spiritual insights, we help individuals navigate life's journey with clarity, purpose, and divine guidance.</p>
+      <p class="text-lg mb-4">We specialize in natal chart analysis, relationship compatibility, career guidance, and yearly forecasts. Our approach blends traditional astrological principles with a deep understanding of cosmic energies, ensuring accurate and personalized readings.</p>
+      <p class="text-lg mb-4">At Shivyog Astrology, we believe that the stars hold answers to life's biggest questions. Whether you're seeking guidance on personal, professional, or spiritual matters, we are here to illuminate your path and empower you with the wisdom of the cosmos.</p>
       <p class="mt-4 text-xl">🙏 Connect with us today and unlock the secrets of your destiny. 🙏</p>
     </section>
 
@@ -142,6 +142,29 @@
       </div>
     </section>
   </main>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm">
+      <h3 class="text-xl mb-4 font-bold">Login</h3>
+      <input type="email" placeholder="Email" class="w-full p-2 mb-2 border rounded">
+      <input type="password" placeholder="Password" class="w-full p-2 mb-4 border rounded">
+      <button class="bg-red-600 text-white px-4 py-2 rounded w-full">Login</button>
+      <button class="close-modal text-red-600 mt-2 w-full">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm">
+      <h3 class="text-xl mb-4 font-bold">Signup</h3>
+      <input type="text" placeholder="Name" class="w-full p-2 mb-2 border rounded">
+      <input type="email" placeholder="Email" class="w-full p-2 mb-2 border rounded">
+      <input type="password" placeholder="Password" class="w-full p-2 mb-4 border rounded">
+      <button class="bg-red-600 text-white px-4 py-2 rounded w-full">Signup</button>
+      <button class="close-modal text-red-600 mt-2 w-full">Cancel</button>
+    </div>
+  </div>
 
   <footer class="cosmic-gradient text-white py-6">
     <div class="container mx-auto text-center">
