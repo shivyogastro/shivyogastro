@@ -79,6 +79,18 @@
           document.getElementById('signupModal').classList.add('hidden');
         });
       });
+
+      // Close modal when clicking outside of it
+      window.addEventListener('click', (e) => {
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        if (e.target === loginModal) {
+          loginModal.classList.add('hidden');
+        }
+        if (e.target === signupModal) {
+          signupModal.classList.add('hidden');
+        }
+      });
     });
   </script>
   <style>
