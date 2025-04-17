@@ -8,7 +8,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -23,37 +22,13 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const auth = getAuth();
-
-    let userId = null;
-
-    // Check for authentication state change
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        userId = user.uid;
-        console.log("User logged in:", userId);
-      } else {
-        userId = null;
-        console.log("No user logged in.");
-      }
-    });
 
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('consultationForm');
-
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        if (!userId) {
-          alert("You need to log in to submit the form.");
-          return;
-        }
-
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
-
-        // Add userId to the form data
-        data.userId = userId;
 
         try {
           await addDoc(collection(db, 'consultationForm'), data);
@@ -66,35 +41,17 @@
       });
     });
 
-    // Login and Signup functionality
-    document.getElementById('loginButton').addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
+    // Open Modals
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
 
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        alert('Login successful!');
-        document.getElementById('loginModal').classList.add('hidden');
-      } catch (error) {
-        console.error('Error during login:', error);
-        alert('Login failed!');
-      }
-    });
-
-    document.getElementById('signupButton').addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert('Signup successful!');
-        document.getElementById('loginModal').classList.add('hidden');
-      } catch (error) {
-        console.error('Error during signup:', error);
-        alert('Signup failed!');
-      }
-    });
+    // Close Modals
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
   </script>
+
   <style>
     body {
       background-color: #fff5f5;
@@ -122,7 +79,9 @@
       z-index: -1;
     }
 
-    #loginModal {
+    /* Modal styling */
+    #loginModal,
+    #signupModal {
       position: fixed;
       top: 0;
       left: 0;
@@ -133,18 +92,34 @@
       justify-content: center;
       align-items: center;
       display: none;
+      z-index: 1000;
     }
 
-    #loginModal input {
-      margin: 10px;
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    #loginModal input,
+    #signupModal input {
+      margin: 10px 0;
+    }
+
+    /* Optional: Close modal on clicking outside the modal */
+    #loginModal:focus,
+    #signupModal:focus {
+      outline: none;
     }
   </style>
 </head>
 
 <body class="font-sans relative">
   <svg class="cosmic-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <path fill="#c53030" fill-opacity="0.1"
-      d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,192C672,171,768,149,864,160C960,171,1056,213,1152,234.7C1248,256,1344,256,1392,256L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+    <path fill="#c53030" fill-opacity="0.1" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,192C672,171,768,149,864,160C960,171,1056,213,1152,234.7C1248,256,1344,256,1392,256L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
   </svg>
 
   <header class="cosmic-gradient text-white py-6 relative flex justify-between items-center px-4">
@@ -158,8 +133,8 @@
       </nav>
     </div>
     <div class="absolute top-4 right-4 space-x-2">
-      <button onclick="document.getElementById('loginModal').classList.remove('hidden')" class="bg-white text-red-600 px-4 py-2 rounded">Login</button>
-      <button onclick="document.getElementById('signupModal').classList.remove('hidden')" class="bg-white text-red-600 px-4 py-2 rounded">Signup</button>
+      <button onclick="openModal('loginModal')" class="bg-white text-red-600 px-4 py-2 rounded">Login</button>
+      <button onclick="openModal('signupModal')" class="bg-white text-red-600 px-4 py-2 rounded">Signup</button>
     </div>
   </header>
 
@@ -216,11 +191,21 @@
 
   <!-- Login Modal -->
   <div id="loginModal" class="hidden">
-    <div class="bg-white p-6 rounded shadow-lg">
+    <div class="modal-content">
       <input type="email" id="loginEmail" placeholder="Email" class="w-full p-2 mb-4 border rounded" />
       <input type="password" id="loginPassword" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
       <button id="loginButton" class="w-full bg-red-600 text-white py-2 rounded mb-4">Login</button>
-      <button id="signupButton" class="w-full bg-green-600 text-white py-2 rounded">Sign Up</button>
+      <button onclick="closeModal('loginModal')" class="w-full bg-gray-600 text-white py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="hidden">
+    <div class="modal-content">
+      <input type="email" id="signupEmail" placeholder="Email" class="w-full p-2 mb-4 border rounded" />
+      <input type="password" id="signupPassword" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
+      <button id="signupButton" class="w-full bg-green-600 text-white py-2 rounded mb-4">Sign Up</button>
+      <button onclick="closeModal('signupModal')" class="w-full bg-gray-600 text-white py-2 rounded">Close</button>
     </div>
   </div>
 
@@ -229,6 +214,6 @@
       <p>© 2025 Shivyog Astro. All Rights Reserved.</p>
     </div>
   </footer>
-</body>
 
+</body>
 </html>
